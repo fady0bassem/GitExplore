@@ -1,3 +1,188 @@
 <resources>
     <string name="app_name">GitExplore</string>
+
+    <string name="language">العربية</string>
+    <string name="language_english" translatable="false">English</string>
+    <string name="language_arabic" translatable="false">العربية</string>
+
+    <string name="empty_string" translatable="false" />
+
+    <string name="content_description" translatable="false">%s image</string>
+
+    <!--Actions-->
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="okay">OK</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="enable">Enable</string>
+    <string name="submit">Submit</string>
+    <string name="search">Search</string>
+    <string name="submit_send">Submit</string>
+    <string name="submit_register">Submit</string>
+    <string name="add">Add</string>
+    <string name="view_attachments">View Attachments</string>
+    <string name="skip">Skip</string>
+    <string name="proceed">Proceed</string>
+    <string name="choose_image">Choose Image</string>
+    <string name="logout">Logout</string>
+    <string name="reject">Reject</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="access_denied">Access denied</string>
+    <string name="save">Save</string>
+    <string name="call">Call</string>
+    <string name="loading">Loading…</string>
+    <string name="hello">Hello&#160;</string>
+    <string name="see_more">See more</string>
+    <string name="see_less">See less</string>
+    <string name="success">Success</string>
+    <string name="close">Close</string>
+    <string name="upload_attachments">Upload Attachments</string>
+    <string name="attachments_required">Attachments are required</string>
+
+    <!--Errors-->
+    <string name="error">Error</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="generic_error">A problem occurred please try again later</string>
+    <string name="no_data_available">No Data Available</string>
+    <string name="logout_dialog_confirmation">Are you sure you want to logout?</string>
+    <string name="not_found">Something went wrong!</string>
+    <string name="api_error_not_allowed">Method not allowed</string>
+    <string name="required">Required</string>
+    <string name="online">Back Online!</string>
+    <string name="image_format_error">The format of the attached images is not supported, please upload JPEG or JPG or PNG images instead</string>
+    <string name="empty_input">Input should not be empty</string>
+    <string name="empty_inputs">Inputs should not be empty</string>
+    <string name="invalid_email">Please enter a valid email</string>
+    <string name="empty_mobile_number">Please enter valid mobile number</string>
+    <string name="password_required">Password is incorrect</string>
+    <string name="invalid_entry">Invalid Entry</string>
+    <string name="invalid_first_name">Invalid First Name</string>
+    <string name="invalid_last_name">Invalid Last Name</string>
+    <string name="invalid_password">Invalid Password</string>
+    <string name="invalid_confirm_password">Invalid Confirm Password</string>
+    <string name="unmatched_password">Password and Confirm Password do not match</string>
+    <string name="invalid_password_length">Password should be minimum of 8 characters</string>
+    <string name="confirm_password_length">Confirm Password should be minimum of 8 characters</string>
+    <string name="date_of_birth_required">Birthdate is required</string>
+    <string name="gender_error">Gender is required</string>
+
+    <!--firebase errors-->
+    <string name="auth_invalid_email">Your email address appears to be malformed.</string>
+    <string name="auth_wrong_password">Your password is wrong.</string>
+    <string name="auth_not_found">This email address is not found.</string>
+    <string name="auth_user_disabled">User with this email has been disabled.</string>
+    <string name="auth_too_many_requests">Too many requests. Try again later.</string>
+    <string name="auth_operation_not_allowed">Signing in with Email and Password is not enabled.</string>
+    <string name="auth_email_already_exists">The email has already been registered. Please login or reset your password.</string>
+    <string name="auth_weak_password">Your password is too weak.</string>
+    <string name="auth_invalid_credential">Your email is invalid.</string>
+
+    <!--common-->
+    <string name="year">year</string>
+    <string name="years">years</string>
+    <string name="month">Month</string>
+    <string name="months">Months</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="day">Day</string>
+    <string name="days">Days</string>
+    <string name="hour">Hour</string>
+    <string name="hours">Hours</string>
+    <string name="minute">Minute</string>
+    <string name="minutes">Minutes</string>
+    <string name="second">Second</string>
+    <string name="seconds">Seconds</string>
+    <string name="ago">Ago</string>
+    <string name="web_browser">Web Browser</string>
+    <string name="pdf_reader">PDF Reader</string>
+    <string name="pdf_reader_download_error">Error in downloading file</string>
+    <string name="pdf_reader_download_at_page_error">Error at page : </string>
+    <string name="pdf_reader_share_error">File not found please try to load it again</string>
+    <string name="image_preview">Image Preview</string>
+    <string name="text_preview">Text Preview</string>
+    <string name="web_payment">Payment gateway</string>
+    <string name="EGP">EGP</string>
+    <string name="coming_soon">Coming soon</string>
+    <string name="open_settings_for_permission_msg">"To use this feature, please allow the app to use your location. "</string>
+    <string name="paid_on">Paid on</string>
+    <string name="due_in">Due in</string>
+    <string name="detail">Details: &#160;</string>
+    <string name="version">"Version"</string>
+    <string name="attachments">Attachments</string>
+    <string name="attached_images">Attached Images</string>
+    <string name="attachments_hint">You can attach a maximum of %d attachments</string>
+
+    <!--login-->
+    <string name="email_placeholder">Email</string>
+    <string name="password_placeholder">Password</string>
+    <string name="incorrect_email_password">Incorrect Email or Password</string>
+    <string name="sign_in">Login</string>
+    <string name="account_not_found">This account is not found</string>
+    <string name="login_user_error_no_google_services">Application is not able to function due to the absence of Google services on your device</string>
+    <string name="or">Or</string>
+    <string name="sign_up">Register</string>
+    <string name="login_forgot_password">Forgot Password?</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="login_user_suspended_message">This account is suspended. Please contact the management team for more details.</string>
+    <string name="login_user_active_message">This account is not active. Please contact the management team for more details.</string>
+    <string name="login_error">Something went wrong. Please contact management team for more details.</string>
+
+    <!--register-->
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="phone">Phone</string>
+    <string name="birthdate">Birthdate</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="register_title">Register</string>
+    <string name="register_general_error">Some fields are missing</string>
+    <string name="register_first_name_placeholder">First name</string>
+    <string name="register_first_name_required">First name is required</string>
+    <string name="register_last_name_placeholder">Last name</string>
+    <string name="register_last_name_required">Last name is required</string>
+    <string name="register_email_placeholder">Email</string>
+    <string name="register_email_required">Email is required</string>
+    <string name="register_email_format">Email format is incorrect</string>
+    <string name="register_confirm_email_placeholder">Confirm Email</string>
+    <string name="register_confirm_email_required">Confirm Email is required</string>
+    <string name="register_confirm_email_format">Confirm Email format is incorrect</string>
+    <string name="register_email_match">Emails don\'t match</string>
+    <string name="register_phone_placeholder">Phone Number</string>
+    <string name="register_phone_required">Phone Number is required</string>
+    <string name="register_phone_format">Phone Number format is incorrect</string>
+    <string name="register_date_of_birth_placeholder">Date Of Birth</string>
+    <string name="register_date_of_birth_required">Date Of Birth is required</string>
+    <string name="register_password_placeholder">Password</string>
+    <string name="register_password_required">Password is required</string>
+    <string name="register_password_length">Password should be minimum of 6 characters</string>
+    <string name="register_confirm_password_placeholder">Confirm Password</string>
+    <string name="register_confirm_password_required">Confirm Password is required</string>
+    <string name="register_confirm_password_length">Confirm Password should be minimum of 6 characters</string>
+    <string name="register_password_match">Passwords don\'t match</string>
+    <string name="register_gender_placeholder">Gender</string>
+    <string name="register_gender_error">Gender is required</string>
+    <string name="register_male_placeholder">Male</string>
+    <string name="register_female_placeholder">Female</string>
+    <string name="register_exists">This email already exists. Please login or proceed with forgot password to access your account.</string>
+    <string name="register_success_message">You have successfully registered. Please login to with the registered account.</string>
+    <string name="register_error_message">Could not complete your registration request. Please contact management team for support.</string>
+
+    <!--forgot password-->
+    <string name="forgot_password">Forgot Password</string>
+    <string name="forgot_password_incorrect_email">Incorrect email</string>
+    <string name="forgot_password_success">An email has been sent to you. Please check your email to reset your password.</string>
+
+    <!--complete profile-->
+    <string name="complete_profile">Complete Profile</string>
+    <string name="complete_profile_about">About me</string>
+    <string name="complete_profile_input_error">Please enter data correctly to proceed.</string>
 </resources>

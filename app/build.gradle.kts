@@ -6,6 +6,7 @@ plugins {
     id ("dagger.hilt.android.plugin")
     //id ("androidx.navigation.safeargs")
     alias(libs.plugins.safeargs)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -43,6 +44,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -93,6 +95,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation (libs.play.services.auth)
     implementation (libs.facebook.login)
+    implementation(libs.firebase.messaging.ktx)
 
     implementation (libs.hilt.android)
     ksp (libs.hilt.android.compiler)
@@ -121,6 +124,9 @@ dependencies {
     implementation (libs.accompanist.pager)
     implementation (libs.accompanist.pager.indicators)
     implementation (libs.accompanist.systemuicontroller)
+
+    implementation(libs.jackson.databind)
+    androidTestImplementation(libs.jackson.databind)
 
     testImplementation(libs.junit)
 

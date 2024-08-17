@@ -14,6 +14,7 @@ hiltAndroid = "2.49"
 hiltAndroidCompiler = "2.48.1"
 hiltCompiler = "2.48.1"
 hiltWork = "1.2.0"
+jacksonDatabind = "2.13.3"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -41,6 +42,7 @@ rxjava = "3.1.6"
 uiViewbinding = "1.6.8"
 workRuntimeKtx = "2.9.1"
 safeargs = "2.7.7"
+firebaseMessagingKtx = "24.0.0"
 
 [libraries]
 accompanist-insets = { module = "com.google.accompanist:accompanist-insets", version.ref = "accompanistInsets" }
@@ -80,6 +82,7 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltCompiler" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jacksonDatabind" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -101,6 +104,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 retrofit2-kotlin-coroutines-adapter = { module = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter", version.ref = "retrofit2KotlinCoroutinesAdapter" }
 rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid" }
 rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
+firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebaseMessagingKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
