@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "76901088110",
+    "project_id": "gitexplore-851f3",
+    "storage_bucket": "gitexplore-851f3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76901088110:android:29c5342c30f33991101f7f",
+        "android_client_info": {
+          "package_name": "com.fadybassem.gitexplore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSkNPktIbNdrUPKMauoDFcof73sWcppyg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
