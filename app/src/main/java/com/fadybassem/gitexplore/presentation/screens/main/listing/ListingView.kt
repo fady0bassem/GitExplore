@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,6 +34,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -41,7 +45,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.fadybassem.gitexplore.R
 import com.fadybassem.gitexplore.data_layer.models.github.Repository
-import com.fadybassem.gitexplore.data_layer.remote.Resource
 import com.fadybassem.gitexplore.data_layer.remote.responses.authenticaion.User
 import com.fadybassem.gitexplore.presentation.components.screen_size.rememberWindowInfo
 import com.fadybassem.gitexplore.presentation.components.text.EmptyListText
@@ -56,12 +59,14 @@ private fun ListingPreview() {
     AppTheme(language = Language.ARABIC) {
         ListingView(user = User(displayName = "Fady", photoUrl = ""),
             searchQuery = remember { mutableStateOf("") },
-            repositoriesList = remember {
-                mutableStateListOf(
-
-                )
-            },
-            paginatePublicRepositories = {})
+            repositoriesList = remember { mutableStateListOf() },
+            isSearch = false,
+            scrollStatus = remember { mutableStateOf(false) },
+            shouldScrollToTop = remember { mutableStateOf(false) },
+            paginatePublicRepositories = {},
+            clearSearchQuery = {},
+            onSearchClick = {},
+            paginateSearchRepositories = {})
     }
 }
 
@@ -70,11 +75,26 @@ internal fun ListingView(
     user: User?,
     searchQuery: MutableState<String>,
     repositoriesList: SnapshotStateList<Repository>,
-    paginatePublicRepositories: () -> Unit
+    isSearch: Boolean,
+    scrollStatus: MutableState<Boolean>,
+    shouldScrollToTop: MutableState<Boolean>,
+    paginatePublicRepositories: () -> Unit,
+    clearSearchQuery: () -> Unit,
+    onSearchClick: () -> Unit,
+    paginateSearchRepositories: () -> Unit,
 ) {
     val windowInfo = rememberWindowInfo()
 
     val listState = rememberLazyListState()
+
+    val localFocusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    val showClearIcon by remember {
+        derivedStateOf {
+            searchQuery.value.isNotEmpty()
+        }
+    }
 
     val shouldLoadMore = remember {
         derivedStateOf {
@@ -85,8 +105,22 @@ internal fun ListingView(
 
     // Load more data when the user is close to the end
     LaunchedEffect(shouldLoadMore.value) {
-        paginatePublicRepositories.invoke()
+        if (isSearch) {
+            paginateSearchRepositories.invoke()
+        } else {
+            paginatePublicRepositories.invoke()
+        }
     }
+
+    // Scroll to the top when the list changes
+    LaunchedEffect(shouldScrollToTop.value) {
+        if (shouldScrollToTop.value) {
+            listState.scrollToItem(0)
+            // Reset the flag to avoid scrolling repeatedly
+            shouldScrollToTop.value = false
+        }
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
 
         Row(
@@ -139,10 +173,23 @@ internal fun ListingView(
             showLeadingIcon = true,
             leadingIcon = Icons.Filled.Search,
             leadingIconTint = Color.Black,
+            showTrailingIcon = showClearIcon,
+            trailingIcon = Icons.Filled.Close,
+            trailingIconTint = Color.Black,
+            trailingIconClickable = true,
+            onTrailingIconClick = {
+                localFocusManager.clearFocus()
+                keyboardController?.hide()
+                clearSearchQuery.invoke()
+            },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email, imeAction = ImeAction.Search
             ),
-            keyboardActions = KeyboardActions(onSearch = {})
+            keyboardActions = KeyboardActions(onSearch = {
+                localFocusManager.clearFocus()
+                keyboardController?.hide()
+                onSearchClick.invoke()
+            })
         )
 
         if (repositoriesList.size == 0) {

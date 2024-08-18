@@ -33,11 +33,16 @@ fun ListingScreen(
 
     AppTheme(language = language.value, apiStatus = apiStatus.value) {
         Box(modifier = Modifier.fillMaxSize()) {
-            ListingView(
-                user = viewModel.user,
+            ListingView(user = viewModel.user,
                 searchQuery = viewModel.searchQuery,
                 repositoriesList = viewModel.repositoriesList,
-                paginatePublicRepositories = {viewModel.paginatePublicRepositories()})
+                isSearch = viewModel.isSearch,
+                scrollStatus = viewModel.scrollStatus,
+                shouldScrollToTop = viewModel.shouldScrollToTop,
+                paginatePublicRepositories = { viewModel.paginatePublicRepositories() },
+                clearSearchQuery = { viewModel.clearSearchQuery() },
+                onSearchClick = { viewModel.onSearchClick() },
+                paginateSearchRepositories = {viewModel.paginateSearchRepositories()})
 
             // show api error toast
             if (showApiError.value.first) {

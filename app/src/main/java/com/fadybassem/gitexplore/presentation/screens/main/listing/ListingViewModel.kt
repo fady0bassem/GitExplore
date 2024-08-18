@@ -35,6 +35,12 @@ class ListingViewModel @Inject constructor(
 
     val showApiError: MutableState<Pair<Boolean, String?>> = mutableStateOf(Pair(false, null))
 
+    var isSearch = false
+    var searchPage = 1
+
+    val scrollStatus = mutableStateOf(false)
+    val shouldScrollToTop = mutableStateOf(false)
+
     init {
         getPublicRepositories()
     }
@@ -46,16 +52,33 @@ class ListingViewModel @Inject constructor(
 
                 if (it.apiStatus == Status.SUCCESS) {
                     it.data?.let { repositories ->
-                        if (since == 0) {
-                            repositoriesList.clear()
-                        }
+                        if (since == 0) repositoriesList.clear()
                         repositoriesList.addAll(repositories)
                         showApiError.value = Pair(false, null)
+                        if (since == 0) shouldScrollToTop.value = true
                     }
                 } else if (it.apiStatus == Status.FAILED || it.apiStatus == Status.ERROR) {
                     showApiError.value = Pair(true, it.message)
                 }
 
+            }.launchIn(viewModelScope)
+        }
+    }
+
+    private fun searchRepositories(query: String) {
+        viewModelScope.launch {
+            githubUseCase.searchRepositories(query = query, page = searchPage).onEach {
+                apiStatus.value = it.apiStatus
+                if (it.apiStatus == Status.SUCCESS) {
+                    it.data?.let { repositorySearch ->
+                        if (searchPage == 1) repositoriesList.clear()
+                        repositoriesList.addAll(repositorySearch.items)
+                        showApiError.value = Pair(false, null)
+                        if (searchPage == 1) shouldScrollToTop.value = true
+                    }
+                } else if (it.apiStatus == Status.FAILED || it.apiStatus == Status.ERROR) {
+                    showApiError.value = Pair(true, it.message)
+                }
 
             }.launchIn(viewModelScope)
         }
@@ -66,5 +89,26 @@ class ListingViewModel @Inject constructor(
             val lastID = repositoriesList.last().id
             getPublicRepositories(since = lastID)
         }
+    }
+
+    fun clearSearchQuery() {
+        searchQuery.value = ""
+        isSearch = false
+        searchPage = 1
+        getPublicRepositories(since = 0)
+        shouldScrollToTop.value = true
+    }
+
+    fun onSearchClick() {
+        isSearch = true
+        searchPage = 1
+        searchRepositories(query = searchQuery.value)
+        shouldScrollToTop.value = true
+    }
+
+    fun paginateSearchRepositories() {
+        isSearch = true
+        searchPage++
+        searchRepositories(query = searchQuery.value)
     }
 }

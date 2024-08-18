@@ -47,12 +47,10 @@ class PreferenceUtils @Inject constructor(private val sharedPreferences: SharedP
     fun clearUserData(exceptLanguage: Boolean = true) {
         with(sharedPreferences.edit()) {
             if (exceptLanguage) {
-                val lang =
-                    sharedPreferences.getString(CHANGE_LANGUAGE_KEY, "")
+                val lang = sharedPreferences.getString(CHANGE_LANGUAGE_KEY, "")
                 clear().apply()
                 putString(CHANGE_LANGUAGE_KEY, lang).apply()
-            } else
-                clear().apply()
+            } else clear().apply()
         }
     }
 
@@ -65,24 +63,6 @@ class PreferenceUtils @Inject constructor(private val sharedPreferences: SharedP
     fun clearUserData(value: String) {
         with(sharedPreferences.edit()) {
             remove(value).apply()
-        }
-    }
-
-    fun saveClearRequestData(clearRequestData: String, type: String?) {
-        with(sharedPreferences.edit()) {
-            putString(clearRequestData, Gson().toJson(type)).apply()
-        }
-    }
-
-    fun clearRequestData(clearRequestData: String) {
-        with(sharedPreferences.edit()) {
-            remove(clearRequestData).apply()
-        }
-    }
-
-    fun setNotificationCounter(notificationCounter: String, counter: String) {
-        with(sharedPreferences.edit()) {
-            putString(notificationCounter, Gson().toJson(counter)).apply()
         }
     }
 }

@@ -2,6 +2,7 @@ package com.fadybassem.gitexplore.usecase.github
 
 import com.fadybassem.gitexplore.data_layer.local.ResourceProvider
 import com.fadybassem.gitexplore.data_layer.models.github.Repository
+import com.fadybassem.gitexplore.data_layer.models.github.RepositorySearch
 import com.fadybassem.gitexplore.data_layer.network.NetworkManager
 import com.fadybassem.gitexplore.data_layer.remote.Resource
 import com.fadybassem.gitexplore.repository.github.GithubRepository
@@ -16,12 +17,22 @@ class GithubUseCaseImpl(
     private val networkManager: NetworkManager,
     private val repository: GithubRepository,
 ) : GithubUseCase {
-    override suspend fun getPublicRepositories(
-        since: Int,
-    ): Flow<Resource<ArrayList<Repository>>> = flow {
+
+    override suspend fun getPublicRepositories(since: Int): Flow<Resource<ArrayList<Repository>>> =
+        flow {
+            if (checkForNetwork(networkManager, resourceProvider)) return@flow
+
+            repository.getPublicRepositories(since = since).onEach { emit(it) }.collect()
+        }
+
+    override suspend fun searchRepositories(
+        query: String,
+        page: Int,
+        perPage: Int,
+    ): Flow<Resource<RepositorySearch>> = flow {
         if (checkForNetwork(networkManager, resourceProvider)) return@flow
 
-        repository.getPublicRepositories(since = since).onEach { emit(it) }
-            .collect()
+        repository.searchRepositories(query = query, page = page, perPage = perPage)
+            .onEach { emit(it) }.collect()
     }
 }

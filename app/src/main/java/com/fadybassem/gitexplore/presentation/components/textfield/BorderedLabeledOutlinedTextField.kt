@@ -1,5 +1,6 @@
 package com.fadybassem.gitexplore.presentation.components.textfield
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -25,9 +26,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.fadybassem.gitexplore.R
 import com.fadybassem.gitexplore.presentation.theme.AppTheme
 import com.fadybassem.gitexplore.presentation.theme.Black
-import com.fadybassem.gitexplore.R
 import com.fadybassem.gitexplore.presentation.theme.SilverSand
 
 @Preview(showBackground = true, showSystemUi = true, apiLevel = 33)
@@ -47,7 +48,7 @@ private fun BorderedLabeledOutlinedTextFieldPreview() {
             ),
             keyboardActions = KeyboardActions(onDone = {
 
-            })
+            }),
         )
     }
 }
@@ -60,13 +61,18 @@ fun BorderedLabeledOutlinedTextField(
     shape: RoundedCornerShape = RoundedCornerShape(16.dp),
     label: String,
     showLeadingIcon: Boolean = false,
+    showTrailingIcon: Boolean = false,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     leadingIcon: ImageVector = Icons.Filled.Image,
+    trailingIcon: ImageVector = Icons.Filled.Image,
     leadingIconTint: Color = Color.Black,
+    trailingIconTint: Color = Color.Black,
+    trailingIconClickable: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     minLines: Int = 1,
+    onTrailingIconClick: (() -> Unit)? = null
 ) {
     OutlinedTextField(
         modifier = modifier,
@@ -87,6 +93,18 @@ fun BorderedLabeledOutlinedTextField(
                     painter = rememberVectorPainter(leadingIcon),
                     contentDescription = stringResource(id = R.string.content_description, label),
                     tint = leadingIconTint
+                )
+            }
+        },
+        trailingIcon = {
+            if (showTrailingIcon) {
+                Icon(
+                    modifier = Modifier.clickable(trailingIconClickable){
+                        onTrailingIconClick?.invoke()
+                    },
+                    painter = rememberVectorPainter(trailingIcon),
+                    contentDescription = stringResource(id = R.string.content_description, label),
+                    tint = trailingIconTint
                 )
             }
         },
