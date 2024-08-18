@@ -32,23 +32,23 @@ fun SplashScreen(
 
     val startNavigation = remember { viewModel.startNavigation }
 
-    val showErrorDialog = viewModel.showErrorDialog
+    val showFirebaseErrorDialog = viewModel.showFirebaseErrorDialog
 
     AppTheme(apiStatus = apiStatus.value) {
         Box(modifier = Modifier.fillMaxSize()) {
             SplashView()
 
-            if (showErrorDialog.value) {
+            if (showFirebaseErrorDialog.value) {
                 SimpleInfoDialog(titleText = stringResource(id = R.string.error),
                     infoText = stringResource(id = R.string.generic_error),
                     showSuccessImage = false,
                     actionText = stringResource(id = R.string.okay),
                     onActionClick = {
-                        viewModel.showErrorDialog.value = false
+                        viewModel.showFirebaseErrorDialog.value = false
                         finishActivity.invoke()
                     },
                     onDismiss = {
-                        viewModel.showErrorDialog.value = false
+                        viewModel.showFirebaseErrorDialog.value = false
                         finishActivity.invoke()
                     })
             }

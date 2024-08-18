@@ -11,6 +11,12 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import com.fadybassem.gitexplore.BuildConfig
+import com.fadybassem.gitexplore.R
+import com.fadybassem.gitexplore.data_layer.local.ResourceProvider
+import com.fadybassem.gitexplore.data_layer.network.NetworkManager
+import com.fadybassem.gitexplore.data_layer.remote.Resource
+import com.fadybassem.gitexplore.data_layer.remote.responses.authenticaion.User
+import kotlinx.coroutines.flow.FlowCollector
 import java.util.regex.Pattern
 
 /**
@@ -99,6 +105,7 @@ fun Activity.showSystemUI() {
     ).show(WindowInsetsCompat.Type.systemBars())
 
 }
+
 /**
  * get current version
  * */
@@ -118,4 +125,18 @@ fun isEmailValid(email: String): Boolean {
  */
 fun isPhoneNumberValid(phoneNumber: String): Boolean {
     return Pattern.matches("^[+]?[0-9]{9,15}$", phoneNumber)
+}
+
+/**
+ * check for network availability
+ */
+suspend fun FlowCollector<Resource<User>>.checkForNetwork(
+    networkManager: NetworkManager,
+    resourceProvider: ResourceProvider,
+): Boolean {
+    if (!networkManager.isNetworkConnected()) {
+        emit(Resource.Error(message = resourceProvider.getString(R.string.no_internet_connection)))
+        return true
+    }
+    return false
 }

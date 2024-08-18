@@ -28,7 +28,7 @@ class SplashViewModel @Inject constructor(
 
     val startNavigation: MutableState<SplashNavigation?> = mutableStateOf(value = null)
 
-    val showErrorDialog = mutableStateOf(false)
+    val showFirebaseErrorDialog = mutableStateOf(false)
 
     init {
         getFirebaseInstanceId()
@@ -39,7 +39,7 @@ class SplashViewModel @Inject constructor(
             authenticationUseCase.getFirebaseInstanceId().onEach {
                 when (it.apiStatus) {
                     Status.SUCCESS -> {
-                        showErrorDialog.value = false
+                        showFirebaseErrorDialog.value = false
 
                         delay(SPLASH_SCREEN_DELAY_DURATION)
 
@@ -51,7 +51,7 @@ class SplashViewModel @Inject constructor(
                     }
 
                     Status.FAILED, Status.ERROR -> {
-                        showErrorDialog.value = true
+                        showFirebaseErrorDialog.value = true
                     }
 
                     else -> {}

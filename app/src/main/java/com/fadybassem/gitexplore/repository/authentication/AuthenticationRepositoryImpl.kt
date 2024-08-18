@@ -4,8 +4,10 @@ import com.fadybassem.gitexplore.data_layer.dto.authentication.AuthenticationDTO
 import com.fadybassem.gitexplore.data_layer.local.ResourceProvider
 import com.fadybassem.gitexplore.data_layer.remote.Resource
 import com.fadybassem.gitexplore.data_layer.remote.network_exception.firebase.HandleFireBaseError
+import com.fadybassem.gitexplore.data_layer.remote.requests.authentication.UserRequestModel
 import com.fadybassem.gitexplore.data_layer.remote.responses.authenticaion.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -19,11 +21,13 @@ class AuthenticationRepositoryImpl(
     private val domainMapper: AuthenticationDTOMapper,
 ) : AuthenticationRepository {
 
-    override fun loginWithEmail(email: String, password: String): Flow<Resource<User>> = flow {
+    override fun loginWithEmail(userRequestModel: UserRequestModel): Flow<Resource<User>> = flow {
         try {
             emit(Resource.Loading())
 
-            val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
+            val result = firebaseAuth.signInWithEmailAndPassword(
+                userRequestModel.email ?: "", userRequestModel.password ?: ""
+            ).await()
             val firebaseUser = result.user!!
             val data = domainMapper.mapFromFirebaseUser(firebaseUser)
 
@@ -35,19 +39,31 @@ class AuthenticationRepositoryImpl(
         }
     }
 
-    override fun registerWithEmail(email: String, password: String): Flow<Resource<User>> = flow {
-        try {
-            emit(Resource.Loading())
+    override fun registerWithEmail(userRequestModel: UserRequestModel): Flow<Resource<User>> =
+        flow {
+            try {
+                emit(Resource.Loading())
 
-            val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-            val firebaseUser = result.user!!
-            val data = domainMapper.mapFromFirebaseUser(firebaseUser)
+                val result = firebaseAuth.createUserWithEmailAndPassword(
+                    userRequestModel.email ?: "", userRequestModel.password ?: ""
+                ).await()
+                val firebaseUser = result.user!!
 
-            emit(Resource.Success(data = data))
-        } catch (e: Exception) {
-            emit(Resource.Error(message = e.localizedMessage, code = 401))
+                val profileUpdates = UserProfileChangeRequest.Builder()
+                    .setDisplayName(userRequestModel.getDisplayName())
+                    .build()
+
+                firebaseUser.updateProfile(profileUpdates).await()
+
+                val data = domainMapper.mapFromFirebaseUser(firebaseUser)
+
+                emit(Resource.Success(data = data))
+            } catch (exception: Exception) {
+                emit(Resource.Failed<User>().apply {
+                    message = handleErrorResponse.handleAuthenticationErrorResponse(exception)
+                })
+            }
         }
-    }
 
     override fun loginWithGoogle(token: String): Flow<Resource<User>> = flow {
         try {

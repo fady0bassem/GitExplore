@@ -224,8 +224,6 @@ val surfaceContainerHighestDarkHighContrast = Color(0xFF353535)
 val seed = Color(0xFF000000)
 
 val Abbey = Color(0xFF58595b)
-val Endeavour = Color(0xFF005BAB)
-val BlueZodiac = Color(0xFF0d143a)
 
 val Transparent = Color(0x00FFFFFF)
 val White = Color(0xFFFFFFFF)
@@ -243,26 +241,6 @@ val HAITI = Color(0xFF121031)
 val CARDINAL = Color(0xFFBC1E2D)
 val RedErrorDark = Color(0xFFB00020)
 val RedErrorLight = Color(0xFFEF5350)
-
-// login screen
-val SignInButtonBackgroundColor = Endeavour  //Primary
-val SignInButtonContentColor = Black  //OnSurface
-val SignInButtonTextColor = White  //Surface
-val SignOutButtonBackgroundColor = Endeavour  //Primary
-val SignOutButtonTextColor = Endeavour  //Surface
-val ActionButtonBackgroundColor = Endeavour  //Primary
-val ActionButtonContentColor = Endeavour  //OnSurface
-val ActionButtonTextColor = White  //Surface
-
-// action button
-val ActionButtonTitleColor = Endeavour  //Primary
-val ActionBorderColor = Endeavour // primary
-val ActionBackgroundColor = Endeavour // primary
-val ActionContentColor = Black // OnSurface
-val ActionDisabledBackgroundColor = LightGray // secondaryVariant
-val ActionTextColor = White // surface
-
-val TextColor = Black // OnSurface
 
 val lightScheme = lightColorScheme(
     primary = primaryLight,

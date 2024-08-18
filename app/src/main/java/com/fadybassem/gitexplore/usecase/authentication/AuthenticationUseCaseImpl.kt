@@ -5,8 +5,10 @@ import com.fadybassem.gitexplore.data_layer.local.PreferenceHelper
 import com.fadybassem.gitexplore.data_layer.local.ResourceProvider
 import com.fadybassem.gitexplore.data_layer.network.NetworkManager
 import com.fadybassem.gitexplore.data_layer.remote.Resource
+import com.fadybassem.gitexplore.data_layer.remote.requests.authentication.UserRequestModel
 import com.fadybassem.gitexplore.data_layer.remote.responses.authenticaion.User
 import com.fadybassem.gitexplore.repository.authentication.AuthenticationRepository
+import com.fadybassem.gitexplore.utils.checkForNetwork
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
@@ -19,19 +21,22 @@ class AuthenticationUseCaseImpl(
     private val networkManager: NetworkManager,
 ) : AuthenticationUseCase {
 
-    override suspend fun loginWithEmail(email: String, password: String): Flow<Resource<User>> =
-        flow {
-            if (!networkManager.isNetworkConnected()) {
-                emit(Resource.Error(message = resourceProvider.getString(R.string.no_internet_connection)))
-                return@flow
-            }
 
-            repository.loginWithEmail(email, password).onEach { emit(it) }.collect()
+    override suspend fun loginWithEmail(userRequestModel: UserRequestModel): Flow<Resource<User>> =
+        flow {
+            if (checkForNetwork(networkManager, resourceProvider)) return@flow
+
+            repository.loginWithEmail(userRequestModel = userRequestModel).onEach {
+                emit(it)
+            }.collect()
         }
 
-    override suspend fun registerWithEmail(email: String, password: String): Flow<Resource<User>> {
-        return repository.registerWithEmail(email, password)
-    }
+    override suspend fun registerWithEmail(userRequestModel: UserRequestModel): Flow<Resource<User>> =
+        flow {
+            if (checkForNetwork(networkManager, resourceProvider)) return@flow
+
+            repository.registerWithEmail(userRequestModel = userRequestModel).onEach { emit(it) }.collect()
+        }
 
     override suspend fun loginWithGoogle(token: String): Flow<Resource<User>> {
         return repository.loginWithGoogle(token)
@@ -49,5 +54,15 @@ class AuthenticationUseCaseImpl(
             }
             emit(resource)
         }
+    }
+
+    /**
+     * set logged in value in local storage
+     * save user in local storage
+     * */
+    private fun saveUser(user: User) {
+        preferenceHelper.clearSavedData()
+        preferenceHelper.setLoggedIn(true)
+        preferenceHelper.setUser(user)
     }
 }
