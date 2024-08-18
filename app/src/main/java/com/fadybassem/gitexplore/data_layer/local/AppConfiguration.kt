@@ -12,5 +12,6 @@ class AppConfiguration {
         const val CHANGE_LANGUAGE_KEY = "change_language_key"
         const val SHARED_PREFERENCE = "preferences.${BuildConfig.APPLICATION_ID}"
         const val LANGUAGE = "language"
+        const val API_URL = "https://api.github.com/"
     }
 }

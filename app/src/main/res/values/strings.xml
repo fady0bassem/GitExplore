@@ -181,8 +181,10 @@
     <string name="forgot_password_incorrect_email">Incorrect email</string>
     <string name="forgot_password_success">An email has been sent to you. Please check your email to reset your password.</string>
 
-    <!--complete profile-->
-    <string name="complete_profile">Complete Profile</string>
-    <string name="complete_profile_about">About me</string>
-    <string name="complete_profile_input_error">Please enter data correctly to proceed.</string>
+    <!--listing-->
+    <string name="listing_title">GitExplore</string>
+    <string name="welcome">Welcome</string>
+    <string name="repository_name">Name</string>
+    <string name="repository_full_name">Full Name</string>
+    <string name="repository_description">Description</string>
 </resources>

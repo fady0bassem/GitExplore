@@ -124,6 +124,8 @@ dependencies {
     implementation (libs.accompanist.pager.indicators)
     implementation (libs.accompanist.systemuicontroller)
 
+    implementation (libs.coil.compose)
+
     implementation(libs.jackson.databind)
     androidTestImplementation(libs.jackson.databind)
 

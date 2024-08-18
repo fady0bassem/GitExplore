@@ -4,8 +4,11 @@ import com.fadybassem.gitexplore.data_layer.local.PreferenceHelper
 import com.fadybassem.gitexplore.data_layer.local.ResourceProvider
 import com.fadybassem.gitexplore.data_layer.network.NetworkManager
 import com.fadybassem.gitexplore.repository.authentication.AuthenticationRepository
+import com.fadybassem.gitexplore.repository.github.GithubRepository
 import com.fadybassem.gitexplore.usecase.authentication.AuthenticationUseCase
 import com.fadybassem.gitexplore.usecase.authentication.AuthenticationUseCaseImpl
+import com.fadybassem.gitexplore.usecase.github.GithubUseCase
+import com.fadybassem.gitexplore.usecase.github.GithubUseCaseImpl
 import com.fadybassem.gitexplore.usecase.helper.HelperUseCase
 import com.fadybassem.gitexplore.usecase.helper.HelperUseCaseImpl
 import dagger.Module
@@ -39,6 +42,18 @@ object UseCaseModule {
         repository = repository,
         resourceProvider = resourceProvider,
         preferenceHelper = preferenceHelper,
+        networkManager = networkManager,
+    )
+
+    @Singleton
+    @Provides
+    fun provideGithubUseCase(
+        repository: GithubRepository,
+        resourceProvider: ResourceProvider,
+        networkManager: NetworkManager,
+    ): GithubUseCase = GithubUseCaseImpl(
+        repository = repository,
+        resourceProvider = resourceProvider,
         networkManager = networkManager,
     )
 }
