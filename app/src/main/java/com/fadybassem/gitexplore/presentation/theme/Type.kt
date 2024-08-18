@@ -1,183 +1,48 @@
 package com.fadybassem.gitexplore.presentation.theme
 
 import androidx.compose.material3.Typography
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.googlefonts.Font
+import androidx.compose.ui.text.googlefonts.GoogleFont
 import com.fadybassem.gitexplore.R
 
-val arabicFontFamily = FontFamily(
-    Font(R.font.sans_english_extra_light, FontWeight.ExtraLight),
-    Font(R.font.sans_arabic_light, FontWeight.Light),
-    Font(R.font.sans_arabic_regular, FontWeight.Normal),
-    Font(R.font.sans_arabic_medium, FontWeight.Medium),
-    Font(R.font.sans_arabic_semi_bold, FontWeight.SemiBold),
-    Font(R.font.sans_arabic_bold, FontWeight.Bold)
+val provider = GoogleFont.Provider(
+    providerAuthority = "com.google.android.gms.fonts",
+    providerPackage = "com.google.android.gms",
+    certificates = R.array.com_google_android_gms_fonts_certs
 )
 
-val englishFontFamily = FontFamily(
-    Font(R.font.sans_english_extra_light, FontWeight.ExtraLight),
-    Font(R.font.sans_english_light, FontWeight.Light),
-    Font(R.font.sans_english_regular, FontWeight.Normal),
-    Font(R.font.sans_english_medium, FontWeight.Medium),
-    Font(R.font.sans_english_semi_bold, FontWeight.SemiBold),
-    Font(R.font.sans_english_bold, FontWeight.Bold)
-)
-
-val ArabicTypography = Typography(
-    displayLarge = TextStyle(
-        fontFamily = arabicFontFamily,
-        fontWeight = FontWeight.W700,
-        fontSize = 30.sp,
-    ),
-    displayMedium = TextStyle(
-        fontFamily = arabicFontFamily,
-        fontWeight = FontWeight.W700,
-        fontSize = 28.sp,
-    ),
-    displaySmall = TextStyle(
-        fontFamily = arabicFontFamily,
-        fontWeight = FontWeight.W700,
-        fontSize = 26.sp,
-    ),
-    headlineLarge = TextStyle(
-        fontFamily = arabicFontFamily,
-        fontWeight = FontWeight.W600,
-        fontSize = 24.sp,
-    ),
-    headlineMedium = TextStyle(
-        fontFamily = arabicFontFamily,
-        fontWeight = FontWeight.W600,
-        fontSize = 23.sp,
-    ),
-    headlineSmall = TextStyle(
-        fontFamily = arabicFontFamily,
-        fontWeight = FontWeight.W600,
-        fontSize = 22.sp,
-    ),
-    titleLarge = TextStyle(
-        fontFamily = arabicFontFamily,
-        fontWeight = FontWeight.W500,
-        fontSize = 21.sp,
-    ),
-    titleMedium = TextStyle(
-        fontFamily = arabicFontFamily,
-        fontWeight = FontWeight.W500,
-        fontSize = 20.sp,
-    ),
-    titleSmall = TextStyle(
-        fontFamily = arabicFontFamily,
-        fontWeight = FontWeight.W500,
-        fontSize = 19.sp
-    ),
-    bodyLarge = TextStyle(
-        fontFamily = arabicFontFamily,
-        fontWeight = FontWeight.W400,
-        fontSize = 18.sp
-    ),
-    bodyMedium = TextStyle(
-        fontFamily = arabicFontFamily,
-        fontWeight = FontWeight.W400,
-        fontSize = 17.sp
-    ),
-    bodySmall = TextStyle(
-        fontFamily = arabicFontFamily,
-        fontWeight = FontWeight.W400,
-        fontSize = 16.sp
-    ),
-    labelLarge = TextStyle(
-        fontFamily = arabicFontFamily,
-        fontWeight = FontWeight.W300,
-        fontSize = 15.sp
-    ),
-    labelMedium = TextStyle(
-        fontFamily = arabicFontFamily,
-        fontWeight = FontWeight.W300,
-        fontSize = 14.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = arabicFontFamily,
-        fontWeight = FontWeight.W300,
-        fontSize = 13.sp
+val bodyFontFamily = FontFamily(
+    Font(
+        googleFont = GoogleFont("Albert Sans"),
+        fontProvider = provider,
     )
 )
 
-val EnglishTypography = Typography(
-    displayLarge = TextStyle(
-        fontFamily = englishFontFamily,
-        fontWeight = FontWeight.W700,
-        fontSize = 30.sp,
-    ),
-    displayMedium = TextStyle(
-        fontFamily = englishFontFamily,
-        fontWeight = FontWeight.W700,
-        fontSize = 28.sp,
-    ),
-    displaySmall = TextStyle(
-        fontFamily = englishFontFamily,
-        fontWeight = FontWeight.W700,
-        fontSize = 26.sp,
-    ),
-    headlineLarge = TextStyle(
-        fontFamily = englishFontFamily,
-        fontWeight = FontWeight.W600,
-        fontSize = 24.sp,
-    ),
-    headlineMedium = TextStyle(
-        fontFamily = englishFontFamily,
-        fontWeight = FontWeight.W600,
-        fontSize = 23.sp,
-    ),
-    headlineSmall = TextStyle(
-        fontFamily = englishFontFamily,
-        fontWeight = FontWeight.W600,
-        fontSize = 22.sp,
-    ),
-    titleLarge = TextStyle(
-        fontFamily = englishFontFamily,
-        fontWeight = FontWeight.W500,
-        fontSize = 21.sp,
-    ),
-    titleMedium = TextStyle(
-        fontFamily = englishFontFamily,
-        fontWeight = FontWeight.W500,
-        fontSize = 20.sp,
-    ),
-    titleSmall = TextStyle(
-        fontFamily = englishFontFamily,
-        fontWeight = FontWeight.W500,
-        fontSize = 19.sp
-    ),
-    bodyLarge = TextStyle(
-        fontFamily = englishFontFamily,
-        fontWeight = FontWeight.W400,
-        fontSize = 18.sp
-    ),
-    bodyMedium = TextStyle(
-        fontFamily = englishFontFamily,
-        fontWeight = FontWeight.W400,
-        fontSize = 17.sp
-    ),
-    bodySmall = TextStyle(
-        fontFamily = englishFontFamily,
-        fontWeight = FontWeight.W400,
-        fontSize = 16.sp
-    ),
-    labelLarge = TextStyle(
-        fontFamily = englishFontFamily,
-        fontWeight = FontWeight.W300,
-        fontSize = 15.sp
-    ),
-    labelMedium = TextStyle(
-        fontFamily = englishFontFamily,
-        fontWeight = FontWeight.W300,
-        fontSize = 14.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = englishFontFamily,
-        fontWeight = FontWeight.W300,
-        fontSize = 13.sp
+val displayFontFamily = FontFamily(
+    Font(
+        googleFont = GoogleFont("Albert Sans"),
+        fontProvider = provider,
     )
+)
+
+// Default Material 3 typography values
+val baseline = Typography()
+
+val AppTypography = Typography(
+    displayLarge = baseline.displayLarge.copy(fontFamily = displayFontFamily),
+    displayMedium = baseline.displayMedium.copy(fontFamily = displayFontFamily),
+    displaySmall = baseline.displaySmall.copy(fontFamily = displayFontFamily),
+    headlineLarge = baseline.headlineLarge.copy(fontFamily = displayFontFamily),
+    headlineMedium = baseline.headlineMedium.copy(fontFamily = displayFontFamily),
+    headlineSmall = baseline.headlineSmall.copy(fontFamily = displayFontFamily),
+    titleLarge = baseline.titleLarge.copy(fontFamily = displayFontFamily),
+    titleMedium = baseline.titleMedium.copy(fontFamily = displayFontFamily),
+    titleSmall = baseline.titleSmall.copy(fontFamily = displayFontFamily),
+    bodyLarge = baseline.bodyLarge.copy(fontFamily = bodyFontFamily),
+    bodyMedium = baseline.bodyMedium.copy(fontFamily = bodyFontFamily),
+    bodySmall = baseline.bodySmall.copy(fontFamily = bodyFontFamily),
+    labelLarge = baseline.labelLarge.copy(fontFamily = bodyFontFamily),
+    labelMedium = baseline.labelMedium.copy(fontFamily = bodyFontFamily),
+    labelSmall = baseline.labelSmall.copy(fontFamily = bodyFontFamily),
 )

@@ -7,6 +7,7 @@ import com.fadybassem.gitexplore.data_layer.remote.network_exception.firebase.Ha
 import com.fadybassem.gitexplore.repository.authentication.AuthenticationRepository
 import com.fadybassem.gitexplore.repository.authentication.AuthenticationRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,13 +23,13 @@ object RepositoryModule {
     fun provideAuthenticationRepository(
         resourceProvider: ResourceProvider,
         handleErrorResponse: HandleFireBaseError,
-        preferenceHelper: PreferenceHelper,
+        firebaseMessaging: FirebaseMessaging,
         firebaseAuth: FirebaseAuth,
         domainMapper: AuthenticationDTOMapper,
     ): AuthenticationRepository = AuthenticationRepositoryImpl(
         resourceProvider = resourceProvider,
         handleErrorResponse = handleErrorResponse,
-        preferenceHelper = preferenceHelper,
+        firebaseMessaging = firebaseMessaging,
         firebaseAuth = firebaseAuth,
         domainMapper = domainMapper
     )

@@ -19,7 +19,7 @@ import com.fadybassem.gitexplore.presentation.components.screen_size.rememberWin
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun SplashPreview() {
-    AppTheme(language = Language.ARABIC) {
+    AppTheme {
         SplashView()
     }
 }

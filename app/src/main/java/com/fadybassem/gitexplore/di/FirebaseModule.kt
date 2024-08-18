@@ -3,6 +3,7 @@ package com.fadybassem.gitexplore.di
 import android.content.Context
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +19,12 @@ object FirebaseModule {
     @Provides
     fun provideFirebaseApp(@ApplicationContext context: Context) =
         FirebaseApp.initializeApp(context)
+
+    @Singleton
+    @Provides
+    fun provideFirebaseMessaging(@ApplicationContext context: Context) =
+        FirebaseMessaging.getInstance()
+
 
     @Singleton
     @Provides

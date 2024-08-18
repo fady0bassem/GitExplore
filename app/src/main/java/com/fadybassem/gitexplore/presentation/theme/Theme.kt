@@ -34,18 +34,18 @@ fun AppTheme(
     content: @Composable () -> Unit,
 ) {
     val context = LocalContext.current
-    val activity = context as Activity
+    val activity = context as? Activity
 
-    val colorScheme = when {
+    val colorScheme = lightScheme /*when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+        darkTheme -> darkScheme
+        else -> lightScheme
+    }*/
 
-    val typography = if (language == Language.ENGLISH) EnglishTypography else ArabicTypography
+    val typography = AppTypography
 
     MaterialTheme(colorScheme = colorScheme, typography = typography) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -66,15 +66,14 @@ fun AppTheme(
 
             when (apiStatus) {
                 Status.LOADING -> {
-                    activity.disableTouch()
-                    activity.hideKeyboard()
+                    activity?.disableTouch()
+                    activity?.hideKeyboard()
                 }
 
                 else -> {
-                    activity.enableTouch()
+                    activity?.enableTouch()
                 }
             }
         }
     }
-
 }

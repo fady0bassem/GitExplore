@@ -15,7 +15,6 @@ import com.fadybassem.gitexplore.presentation.ui.main.MainActivity
 import com.fadybassem.gitexplore.presentation.ui.splash.splash_screen.SplashScreen
 import com.fadybassem.gitexplore.utils.Logger
 import com.fadybassem.gitexplore.utils.NAVIGATE
-import com.fadybassem.gitexplore.utils.SplashNavigation.CompleteProfile
 import com.fadybassem.gitexplore.utils.SplashNavigation.Login
 import com.fadybassem.gitexplore.utils.SplashNavigation.Main
 import com.fadybassem.gitexplore.utils.hideSystemUI
@@ -44,15 +43,9 @@ fun SplashNavigation() {
                         // start main activity - main screen
                         activity.startSingleNavigation(MainActivity::class.java)
                     }
-
-                    CompleteProfile -> {
-                        // navigate to complete profile screen
-                        activity.startSingleNavigation(
-                            destination = AuthenticationActivity::class.java,
-                            bundle = bundleOf(NAVIGATE to AuthenticationRoutes.CompleteProfile.route)
-                        )
-                    }
                 }
+            }, finishActivity = {
+                activity.finish()
             })
         }
     }
