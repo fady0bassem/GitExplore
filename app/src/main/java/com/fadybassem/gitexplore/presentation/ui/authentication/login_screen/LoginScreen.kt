@@ -21,6 +21,7 @@ import com.fadybassem.gitexplore.utils.ObserveLifecycleEvents
 @Composable
 fun LoginScreen(
     navController: NavHostController,
+    finishActivity: () -> Unit,
     navigation: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
@@ -33,8 +34,8 @@ fun LoginScreen(
     val language = remember { viewModel.language }
     val apiStatus = remember { viewModel.apiStatus }
 
-    val firebaseError = remember { viewModel.firebaseError }
-    val navigateToCompleteProfileScreen = remember { viewModel.navigateToCompleteProfileScreen }
+    val showFirebaseErrorDialog = viewModel.showFirebaseErrorDialog
+
     val navigateToMainScreen = remember { viewModel.navigateToMainScreen }
     val showErrorDialog = remember { viewModel.showErrorDialog }
 
@@ -62,11 +63,19 @@ fun LoginScreen(
                 })
 
             // firebase error
-            if (firebaseError.value.first == true) {
-                SimpleInfoDialog(infoText = firebaseError.value.second ?: "",
-                    actionText = stringResource(id = R.string.ok),
-                    onDismiss = { viewModel.firebaseError.value = Pair(null, null) },
-                    onActionClick = { viewModel.firebaseError.value = Pair(null, null) })
+            if (showFirebaseErrorDialog.value) {
+                SimpleInfoDialog(titleText = stringResource(id = R.string.error),
+                    infoText = stringResource(id = R.string.generic_error),
+                    showSuccessImage = false,
+                    actionText = stringResource(id = R.string.okay),
+                    onActionClick = {
+                        viewModel.showFirebaseErrorDialog.value = false
+                        finishActivity.invoke()
+                    },
+                    onDismiss = {
+                        viewModel.showFirebaseErrorDialog.value = false
+                        finishActivity.invoke()
+                    })
             }
 
             // login error

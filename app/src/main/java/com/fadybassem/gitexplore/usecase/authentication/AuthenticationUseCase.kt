@@ -9,7 +9,5 @@ interface AuthenticationUseCase {
 
     suspend fun loginWithEmail(userRequestModel: UserRequestModel): Flow<Resource<User>>
     suspend fun registerWithEmail(userRequestModel: UserRequestModel): Flow<Resource<User>>
-    suspend fun loginWithGoogle(token: String): Flow<Resource<User>>
-    suspend fun loginWithFacebook(token: String): Flow<Resource<User>>
     suspend fun getFirebaseInstanceId(): Flow<Resource<String>>
 }

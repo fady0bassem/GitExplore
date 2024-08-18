@@ -216,7 +216,7 @@ internal fun LoginView(
                             textStyle = MaterialTheme.typography.bodySmall,
                             onClick = { onClickSignIn.invoke() })
 
-                        Spacer(modifier = Modifier.padding(windowInfo.windowDimensions.verticalPadding))
+                        Spacer(modifier = Modifier.padding(windowInfo.windowDimensions.verticalPadding / 2))
 
                         // or
                         Text(
@@ -233,7 +233,7 @@ internal fun LoginView(
                             textAlign = TextAlign.Center
                         )
 
-                        Spacer(modifier = Modifier.padding(windowInfo.windowDimensions.verticalPadding))
+                        Spacer(modifier = Modifier.padding(windowInfo.windowDimensions.verticalPadding / 2))
 
                         // sign up button
                         TransparentOutlinedButton(modifier = Modifier

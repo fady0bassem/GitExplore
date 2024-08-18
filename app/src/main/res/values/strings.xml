@@ -78,7 +78,7 @@
     <string name="auth_operation_not_allowed">Signing in with Email and Password is not enabled.</string>
     <string name="auth_email_already_exists">The email has already been registered. Please login or reset your password.</string>
     <string name="auth_weak_password">Your password is too weak.</string>
-    <string name="auth_invalid_credential">Your email is invalid.</string>
+    <string name="auth_invalid_credential">The supplied auth credential is incorrect, malformed or has expired.</string>
 
     <!--common-->
     <string name="year">year</string>

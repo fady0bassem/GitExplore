@@ -28,7 +28,9 @@ class AuthenticationRepositoryImpl(
             val result = firebaseAuth.signInWithEmailAndPassword(
                 userRequestModel.email ?: "", userRequestModel.password ?: ""
             ).await()
+
             val firebaseUser = result.user!!
+
             val data = domainMapper.mapFromFirebaseUser(firebaseUser)
 
             emit(Resource.Success(data = data))
@@ -47,11 +49,11 @@ class AuthenticationRepositoryImpl(
                 val result = firebaseAuth.createUserWithEmailAndPassword(
                     userRequestModel.email ?: "", userRequestModel.password ?: ""
                 ).await()
+
                 val firebaseUser = result.user!!
 
                 val profileUpdates = UserProfileChangeRequest.Builder()
-                    .setDisplayName(userRequestModel.getDisplayName())
-                    .build()
+                    .setDisplayName(userRequestModel.getDisplayName()).build()
 
                 firebaseUser.updateProfile(profileUpdates).await()
 
@@ -64,40 +66,6 @@ class AuthenticationRepositoryImpl(
                 })
             }
         }
-
-    override fun loginWithGoogle(token: String): Flow<Resource<User>> = flow {
-        try {
-            emit(Resource.Loading())
-
-            val credential = com.google.firebase.auth.GoogleAuthProvider.getCredential(token, null)
-            val result = firebaseAuth.signInWithCredential(credential).await()
-            val firebaseUser = result.user!!
-            val data = domainMapper.mapFromFirebaseUser(firebaseUser)
-
-            emit(Resource.Success(data = data))
-        } catch (exception: Exception) {
-            emit(Resource.Failed<User>().apply {
-                message = handleErrorResponse.handleAuthenticationErrorResponse(exception)
-            })
-        }
-    }
-
-    override fun loginWithFacebook(token: String): Flow<Resource<User>> = flow {
-        try {
-            emit(Resource.Loading())
-
-            val credential = com.google.firebase.auth.FacebookAuthProvider.getCredential(token)
-            val result = firebaseAuth.signInWithCredential(credential).await()
-            val firebaseUser = result.user!!
-            val data = domainMapper.mapFromFirebaseUser(firebaseUser)
-
-            emit(Resource.Success(data = data))
-        } catch (exception: Exception) {
-            emit(Resource.Failed<User>().apply {
-                message = handleErrorResponse.handleAuthenticationErrorResponse(exception)
-            })
-        }
-    }
 
     override fun getFirebaseInstanceId(): Flow<Resource<String>> = flow {
         try {
