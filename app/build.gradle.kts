@@ -4,7 +4,6 @@ plugins {
     id ("kotlin-parcelize")
     alias(libs.plugins.ksp) apply true
     id ("dagger.hilt.android.plugin")
-    //id ("androidx.navigation.safeargs")
     alias(libs.plugins.safeargs)
     alias(libs.plugins.google.services)
 }
@@ -95,7 +94,6 @@ dependencies {
     implementation (libs.firebase.auth.ktx)
     implementation(libs.firebase.analytics)
     implementation (libs.play.services.auth)
-    implementation (libs.facebook.login)
     implementation(libs.firebase.messaging.ktx)
 
     implementation (libs.hilt.android)

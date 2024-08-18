@@ -1,4 +1,4 @@
-package com.fadybassem.gitexplore.presentation.ui.authentication.forgot_pssword_screen
+package com.fadybassem.gitexplore.presentation.screens.authentication.forgot_pssword_screen
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -6,10 +6,13 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fadybassem.gitexplore.data_layer.local.ResourceProvider
+import com.fadybassem.gitexplore.data_layer.remote.requests.authentication.UserRequestModel
 import com.fadybassem.gitexplore.usecase.authentication.AuthenticationUseCase
 import com.fadybassem.gitexplore.usecase.helper.HelperUseCase
 import com.fadybassem.gitexplore.utils.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -42,20 +45,25 @@ class ForgotPasswordViewModel @Inject constructor(
         onValidateEmail()
 
         if (!emailTextStateError.value.first) {
-            forgotPassword(emailTextState.value)
+
+            val userRequestModel = UserRequestModel(
+                email = emailTextState.value.trim { it <= ' ' },
+            )
+
+            forgotPassword(userRequestModel)
         }
     }
 
-    private fun forgotPassword(email: String) {
+    private fun forgotPassword(userRequestModel: UserRequestModel) {
         viewModelScope.launch {
-//            authenticationUseCase.forgotPassword(email).onEach {
-//                apiStatus.value = it.apiStatus
-//                if (it.apiStatus == Status.SUCCESS) {
-//                    forgotPasswordResponse.value = Pair(true, it.message)
-//                } else if (it.apiStatus == Status.FAILED || it.apiStatus == Status.ERROR) {
-//                    forgotPasswordResponse.value = Pair(false, it.message)
-//                }
-//            }.launchIn(viewModelScope)
+            authenticationUseCase.forgotPassword(userRequestModel).onEach {
+                apiStatus.value = it.apiStatus
+                if (it.apiStatus == Status.SUCCESS) {
+                    forgotPasswordResponse.value = Pair(true, it.message)
+                } else if (it.apiStatus == Status.FAILED || it.apiStatus == Status.ERROR) {
+                    forgotPasswordResponse.value = Pair(false, it.message)
+                }
+            }.launchIn(viewModelScope)
         }
     }
 }

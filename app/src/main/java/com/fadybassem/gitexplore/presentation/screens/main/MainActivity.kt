@@ -1,4 +1,4 @@
-package com.fadybassem.gitexplore.presentation.ui.main
+package com.fadybassem.gitexplore.presentation.screens.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

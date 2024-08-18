@@ -1,10 +1,9 @@
-package com.fadybassem.gitexplore.presentation.ui.authentication.register_screen
+package com.fadybassem.gitexplore.presentation.screens.authentication.login_screen
 
 import android.app.Activity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -13,18 +12,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.fadybassem.gitexplore.R
+import com.fadybassem.gitexplore.app.BaseActivity
 import com.fadybassem.gitexplore.presentation.dialogs.SimpleInfoDialog
 import com.fadybassem.gitexplore.presentation.navigation.authentication.AuthenticationRoutes
 import com.fadybassem.gitexplore.presentation.theme.AppTheme
 import com.fadybassem.gitexplore.utils.ObserveLifecycleEvents
-import com.fadybassem.gitexplore.utils.showToastMessage
 
 @Composable
-fun RegisterScreen(
+fun LoginScreen(
     navController: NavHostController,
     finishActivity: () -> Unit,
-    viewModel: RegisterViewModel = hiltViewModel(),
+    navigation: () -> Unit,
+    viewModel: LoginViewModel = hiltViewModel(),
 ) {
+
     viewModel.ObserveLifecycleEvents(LocalLifecycleOwner.current.lifecycle)
 
     val context = LocalContext.current
@@ -35,33 +36,33 @@ fun RegisterScreen(
 
     val showFirebaseErrorDialog = viewModel.showFirebaseErrorDialog
 
-    val registerResponse = remember { viewModel.registerResponse }
+    val navigateToMainScreen = remember { viewModel.navigateToMainScreen }
+    val showErrorDialog = remember { viewModel.showErrorDialog }
 
     AppTheme(language = language.value, apiStatus = apiStatus.value) {
         Box(modifier = Modifier.fillMaxSize()) {
-            RegisterView(
-                firstNameTextState = remember { viewModel.firstNameTextState },
-                lastNameTextState = remember { viewModel.lastNameTextState },
+            LoginView(language = remember { viewModel.language },
+                version = viewModel.version,
                 emailTextState = remember { viewModel.emailTextState },
                 passwordTextState = remember { viewModel.passwordTextState },
-                confirmPasswordTextState = remember { viewModel.confirmPasswordTextState },
                 passwordVisibility = remember { viewModel.passwordVisibility },
-                confirmPasswordVisibility = remember { viewModel.confirmPasswordVisibility },
-                firstNameTextStateError = remember { viewModel.firstNameTextStateError },
-                lastNameTextStateError = remember { viewModel.lastNameTextStateError },
                 emailTextStateError = remember { viewModel.emailTextStateError },
                 passwordTextStateError = remember { viewModel.passwordTextStateError },
-                confirmPasswordTextStateError = remember { viewModel.confirmPasswordTextStateError },
-                passwordMatchTextStateError = remember { viewModel.passwordMatchTextStateError },
-                onValidateFirstName = { viewModel.validateFirstName() },
-                onValidateLastName = { viewModel.validateLastName() },
-                onValidateEmail = { viewModel.validateEmail() },
+                onLanguageChange = {
+                    val baseActivity = activity as BaseActivity
+                    baseActivity.changeLanguage()
+                },
+                onValidateEmail = { viewModel.onValidateEmail() },
                 onValidatePassword = { viewModel.validatePassword() },
-                onValidateConfirmPassword = { viewModel.validateConfirmPassword() },
-                onValidatePasswordMatch = { viewModel.validatePasswordMatch() },
-                onClickSignUp = { viewModel.signUp() },
-            )
+                onClickSignIn = { viewModel.loginClick() },
+                onClickSignOut = {
+                    navController.navigate(AuthenticationRoutes.Register.route)
+                },
+                onClickForgotPassword = {
+                    navController.navigate(AuthenticationRoutes.ForgotPassword.route)
+                })
 
+            // firebase error
             if (showFirebaseErrorDialog.value) {
                 SimpleInfoDialog(titleText = stringResource(id = R.string.error),
                     infoText = stringResource(id = R.string.generic_error),
@@ -77,17 +78,18 @@ fun RegisterScreen(
                     })
             }
 
-            if (registerResponse.value.first == true) {
-                // navigate back to login screen
-                context.showToastMessage(registerResponse.value.second)
-                viewModel.registerResponse.value = Pair(null, null)
-                navController.popBackStack(
-                    route = AuthenticationRoutes.Login.route,
-                    inclusive = false
-                )
-            } else if (registerResponse.value.first == false) {
-                context.showToastMessage(registerResponse.value.second)
-                viewModel.registerResponse.value = Pair(null, null)
+            // login error
+            if (showErrorDialog.value.first == true) {
+                SimpleInfoDialog(infoText = showErrorDialog.value.second ?: "",
+                    actionText = stringResource(id = R.string.ok),
+                    onDismiss = { viewModel.showErrorDialog.value = Pair(null, null) },
+                    onActionClick = { viewModel.showErrorDialog.value = Pair(null, null) })
+            }
+
+            // navigate to main screen
+            if (navigateToMainScreen.value == true) {
+                viewModel.navigateToMainScreen.value = null
+                navigation.invoke()
             }
         }
     }

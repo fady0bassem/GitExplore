@@ -1,4 +1,4 @@
-package com.fadybassem.gitexplore.presentation.ui.splash.splash_screen
+package com.fadybassem.gitexplore.presentation.screens.splash.splash_screen
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

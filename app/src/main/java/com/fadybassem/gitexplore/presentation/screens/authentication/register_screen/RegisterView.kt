@@ -1,4 +1,4 @@
-package com.fadybassem.gitexplore.presentation.ui.authentication.register_screen
+package com.fadybassem.gitexplore.presentation.screens.authentication.register_screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

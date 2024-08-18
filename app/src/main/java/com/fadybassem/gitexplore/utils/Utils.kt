@@ -130,7 +130,7 @@ fun isPhoneNumberValid(phoneNumber: String): Boolean {
 /**
  * check for network availability
  */
-suspend fun FlowCollector<Resource<User>>.checkForNetwork(
+suspend fun <T>FlowCollector<Resource<T>>.checkForNetwork(
     networkManager: NetworkManager,
     resourceProvider: ResourceProvider,
 ): Boolean {

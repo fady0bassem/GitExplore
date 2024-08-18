@@ -10,9 +10,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.fadybassem.gitexplore.presentation.navigation.authentication.AuthenticationRoutes
 import com.fadybassem.gitexplore.presentation.navigation.startSingleNavigation
-import com.fadybassem.gitexplore.presentation.ui.authentication.AuthenticationActivity
-import com.fadybassem.gitexplore.presentation.ui.main.MainActivity
-import com.fadybassem.gitexplore.presentation.ui.splash.splash_screen.SplashScreen
+import com.fadybassem.gitexplore.presentation.screens.authentication.AuthenticationActivity
+import com.fadybassem.gitexplore.presentation.screens.main.MainActivity
+import com.fadybassem.gitexplore.presentation.screens.splash.splash_screen.SplashScreen
 import com.fadybassem.gitexplore.utils.Logger
 import com.fadybassem.gitexplore.utils.NAVIGATE
 import com.fadybassem.gitexplore.utils.SplashNavigation.Login

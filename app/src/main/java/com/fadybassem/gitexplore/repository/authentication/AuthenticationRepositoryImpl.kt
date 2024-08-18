@@ -1,5 +1,6 @@
 package com.fadybassem.gitexplore.repository.authentication
 
+import com.fadybassem.gitexplore.R
 import com.fadybassem.gitexplore.data_layer.dto.authentication.AuthenticationDTOMapper
 import com.fadybassem.gitexplore.data_layer.local.ResourceProvider
 import com.fadybassem.gitexplore.data_layer.remote.Resource
@@ -20,6 +21,24 @@ class AuthenticationRepositoryImpl(
     private val firebaseAuth: FirebaseAuth,
     private val domainMapper: AuthenticationDTOMapper,
 ) : AuthenticationRepository {
+
+    override fun getFirebaseInstanceId(): Flow<Resource<String>> = flow {
+        try {
+            emit(Resource.Loading())
+
+            val token = firebaseMessaging.token.await()
+            if (token.isNotEmpty()) {
+                emit(Resource.Success(data = token))
+            } else {
+                emit(Resource.Failed(data = null))
+            }
+
+        } catch (exception: Exception) {
+            emit(Resource.Failed<String>().apply {
+                message = handleErrorResponse.handleAuthenticationErrorResponse(exception)
+            })
+        }
+    }
 
     override fun loginWithEmail(userRequestModel: UserRequestModel): Flow<Resource<User>> = flow {
         try {
@@ -67,16 +86,13 @@ class AuthenticationRepositoryImpl(
             }
         }
 
-    override fun getFirebaseInstanceId(): Flow<Resource<String>> = flow {
+    override fun forgotPassword(userRequestModel: UserRequestModel): Flow<Resource<String>> = flow {
         try {
             emit(Resource.Loading())
 
-            val token = firebaseMessaging.token.await()
-            if (token.isNotEmpty()) {
-                emit(Resource.Success(data = token))
-            } else {
-                emit(Resource.Failed(data = null))
-            }
+            firebaseAuth.sendPasswordResetEmail(userRequestModel.email ?: "").await()
+
+            emit(Resource.Success(message = resourceProvider.getString(R.string.forgot_password_success)))
 
         } catch (exception: Exception) {
             emit(Resource.Failed<String>().apply {
@@ -84,5 +100,4 @@ class AuthenticationRepositoryImpl(
             })
         }
     }
-
 }

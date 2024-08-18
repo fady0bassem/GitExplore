@@ -8,10 +8,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.fadybassem.gitexplore.presentation.navigation.startSingleNavigation
-import com.fadybassem.gitexplore.presentation.ui.authentication.forgot_pssword_screen.ForgotPasswordScreen
-import com.fadybassem.gitexplore.presentation.ui.authentication.login_screen.LoginScreen
-import com.fadybassem.gitexplore.presentation.ui.authentication.register_screen.RegisterScreen
-import com.fadybassem.gitexplore.presentation.ui.main.MainActivity
+import com.fadybassem.gitexplore.presentation.screens.authentication.forgot_pssword_screen.ForgotPasswordScreen
+import com.fadybassem.gitexplore.presentation.screens.authentication.login_screen.LoginScreen
+import com.fadybassem.gitexplore.presentation.screens.authentication.register_screen.RegisterScreen
+import com.fadybassem.gitexplore.presentation.screens.main.MainActivity
 import com.fadybassem.gitexplore.utils.Logger
 import com.fadybassem.gitexplore.utils.showSystemUI
 

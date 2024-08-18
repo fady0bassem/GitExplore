@@ -7,7 +7,6 @@ constraintlayout = "2.1.4"
 constraintlayoutCompose = "1.0.1"
 converterGson = "2.9.0"
 daggerAndroidProcessor = "2.45"
-facebookLogin = "16.0.1"
 firebaseBom = "33.1.2"
 fragmentKtx = "1.8.2"
 hiltAndroid = "2.49"
@@ -76,7 +75,6 @@ androidx-ui-viewbinding = { module = "androidx.compose.ui:ui-viewbinding", versi
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 dagger-android-processor = { module = "com.google.dagger:dagger-android-processor", version.ref = "daggerAndroidProcessor" }
-facebook-login = { module = "com.facebook.android:facebook-login", version.ref = "facebookLogin" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }

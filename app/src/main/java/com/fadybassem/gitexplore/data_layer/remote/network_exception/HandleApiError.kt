@@ -6,7 +6,7 @@ import com.fadybassem.gitexplore.data_layer.local.PreferenceHelper
 import com.fadybassem.gitexplore.data_layer.local.ResourceProvider
 import com.fadybassem.gitexplore.data_layer.remote.responses.ErrorResponse
 import com.fadybassem.gitexplore.presentation.navigation.startBaseNavigation
-import com.fadybassem.gitexplore.presentation.ui.authentication.AuthenticationActivity
+import com.fadybassem.gitexplore.presentation.screens.authentication.AuthenticationActivity
 import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.HttpException
 import javax.inject.Inject

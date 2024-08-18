@@ -7,7 +7,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface AuthenticationUseCase {
 
+    suspend fun getFirebaseInstanceId(): Flow<Resource<String>>
     suspend fun loginWithEmail(userRequestModel: UserRequestModel): Flow<Resource<User>>
     suspend fun registerWithEmail(userRequestModel: UserRequestModel): Flow<Resource<User>>
-    suspend fun getFirebaseInstanceId(): Flow<Resource<String>>
+    suspend fun forgotPassword(userRequestModel: UserRequestModel): Flow<Resource<String>>
 }

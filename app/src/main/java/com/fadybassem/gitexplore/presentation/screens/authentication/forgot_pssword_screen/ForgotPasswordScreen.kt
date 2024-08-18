@@ -1,4 +1,4 @@
-package com.fadybassem.gitexplore.presentation.ui.authentication.forgot_pssword_screen
+package com.fadybassem.gitexplore.presentation.screens.authentication.forgot_pssword_screen
 
 import android.app.Activity
 import androidx.compose.foundation.layout.Box

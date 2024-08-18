@@ -1,4 +1,4 @@
-package com.fadybassem.gitexplore.presentation.ui.splash
+package com.fadybassem.gitexplore.presentation.screens.splash
 
 import android.os.Bundle
 import androidx.activity.compose.setContent

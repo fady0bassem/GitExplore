@@ -1,4 +1,4 @@
-package com.fadybassem.gitexplore.presentation.ui.authentication
+package com.fadybassem.gitexplore.presentation.screens.authentication
 
 import android.os.Bundle
 import androidx.activity.compose.setContent

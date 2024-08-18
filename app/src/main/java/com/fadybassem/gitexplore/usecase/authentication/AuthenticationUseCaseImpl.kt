@@ -1,5 +1,6 @@
 package com.fadybassem.gitexplore.usecase.authentication
 
+import com.fadybassem.gitexplore.R
 import com.fadybassem.gitexplore.data_layer.local.PreferenceHelper
 import com.fadybassem.gitexplore.data_layer.local.ResourceProvider
 import com.fadybassem.gitexplore.data_layer.network.NetworkManager
@@ -21,6 +22,15 @@ class AuthenticationUseCaseImpl(
     private val networkManager: NetworkManager,
 ) : AuthenticationUseCase {
 
+    override suspend fun getFirebaseInstanceId(): Flow<Resource<String>> = flow {
+        repository.getFirebaseInstanceId().collect { resource ->
+            if (resource is Resource.Success) {
+                //localStorageManager.saveToken(resource.data!!) // Save token to local storage
+                resource.data?.let { preferenceHelper.setFirebaseInstanceID(id = it) }
+            }
+            emit(resource)
+        }
+    }
 
     override suspend fun loginWithEmail(userRequestModel: UserRequestModel): Flow<Resource<User>> =
         flow {
@@ -43,15 +53,13 @@ class AuthenticationUseCaseImpl(
                 .collect()
         }
 
-    override suspend fun getFirebaseInstanceId(): Flow<Resource<String>> = flow {
-        repository.getFirebaseInstanceId().collect { resource ->
-            if (resource is Resource.Success) {
-                //localStorageManager.saveToken(resource.data!!) // Save token to local storage
-                resource.data?.let { preferenceHelper.setFirebaseInstanceID(id = it) }
-            }
-            emit(resource)
+    override suspend fun forgotPassword(userRequestModel: UserRequestModel): Flow<Resource<String>> =
+        flow {
+            if (checkForNetwork(networkManager, resourceProvider)) return@flow
+
+            repository.forgotPassword(userRequestModel = userRequestModel).onEach { emit(it) }
+                .collect()
         }
-    }
 
     /**
      * set logged in value in local storage

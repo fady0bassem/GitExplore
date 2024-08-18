@@ -1,4 +1,4 @@
-package com.fadybassem.gitexplore.presentation.ui.authentication.login_screen
+package com.fadybassem.gitexplore.presentation.screens.authentication.login_screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
