@@ -23,9 +23,12 @@ fun AuthenticationNavigation(startDestination: String) {
     NavHost(navController = navController, startDestination = startDestination) {
         // Login Screen
         composable(AuthenticationRoutes.Login.route) {
-            LoginScreen(navController = navController, navigation = {
-                activity.startSingleNavigation(MainActivity::class.java)
-            })
+            LoginScreen(
+                navController = navController,
+                finishActivity = { activity.finish() },
+                navigation = {
+                    activity.startSingleNavigation(MainActivity::class.java)
+                })
         }
 
         // Register Screen
