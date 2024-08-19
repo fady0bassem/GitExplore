@@ -225,6 +225,8 @@ val seed = Color(0xFF000000)
 
 val Abbey = Color(0xFF58595b)
 
+val Gold = Color(0xFFFFD700)
+
 val Transparent = Color(0x00FFFFFF)
 val White = Color(0xFFFFFFFF)
 val Black = Color(0xFF000000)

@@ -15,7 +15,6 @@ import com.fadybassem.gitexplore.R
 import com.fadybassem.gitexplore.data_layer.local.ResourceProvider
 import com.fadybassem.gitexplore.data_layer.network.NetworkManager
 import com.fadybassem.gitexplore.data_layer.remote.Resource
-import com.fadybassem.gitexplore.data_layer.remote.responses.authenticaion.User
 import kotlinx.coroutines.flow.FlowCollector
 import java.util.regex.Pattern
 
@@ -130,7 +129,7 @@ fun isPhoneNumberValid(phoneNumber: String): Boolean {
 /**
  * check for network availability
  */
-suspend fun <T>FlowCollector<Resource<T>>.checkForNetwork(
+suspend fun <T> FlowCollector<Resource<T>>.checkForNetwork(
     networkManager: NetworkManager,
     resourceProvider: ResourceProvider,
 ): Boolean {
@@ -139,4 +138,14 @@ suspend fun <T>FlowCollector<Resource<T>>.checkForNetwork(
         return true
     }
     return false
+}
+
+fun checkForNetwork(
+    networkManager: NetworkManager,
+    resourceProvider: ResourceProvider,
+): Pair<Boolean, String> {
+    if (!networkManager.isNetworkConnected()) {
+        return Pair(true, resourceProvider.getString(R.string.no_internet_connection))
+    }
+    return Pair(false, "")
 }

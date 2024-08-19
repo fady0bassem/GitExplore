@@ -72,6 +72,7 @@ fun AppTheme(
 
                 else -> {
                     activity?.enableTouch()
+                    activity?.hideKeyboard()
                 }
             }
         }

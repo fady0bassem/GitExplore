@@ -11,4 +11,5 @@ interface AuthenticationRepository {
     fun loginWithEmail(userRequestModel: UserRequestModel): Flow<Resource<User>>
     fun registerWithEmail(userRequestModel: UserRequestModel): Flow<Resource<User>>
     fun forgotPassword(userRequestModel: UserRequestModel): Flow<Resource<String>>
+    fun logout(): Flow<Resource<Unit>>
 }

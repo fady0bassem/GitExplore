@@ -100,4 +100,19 @@ class AuthenticationRepositoryImpl(
             })
         }
     }
+
+    override fun logout(): Flow<Resource<Unit>> = flow {
+        try {
+            emit(Resource.Loading())
+
+            firebaseAuth.signOut()
+
+            emit(Resource.Success())
+        } catch (exception: Exception) {
+            emit(Resource.Failed<Unit>().apply {
+                message = handleErrorResponse.handleAuthenticationErrorResponse(exception)
+            })
+        }
+    }
+
 }

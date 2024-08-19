@@ -1,4 +1,4 @@
-package com.fadybassem.gitexplore.presentation.navigation.main
+package com.fadybassem.gitexplore.presentation.navigation.account_settings
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
@@ -22,26 +22,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.fadybassem.gitexplore.R
-import com.fadybassem.gitexplore.presentation.navigation.startActivityNavigation
-import com.fadybassem.gitexplore.presentation.screens.account_settings.AccountSettingsActivity
-import com.fadybassem.gitexplore.presentation.screens.authentication.AuthenticationActivity
-import com.fadybassem.gitexplore.presentation.screens.main.details.RepositoryScreen
-import com.fadybassem.gitexplore.presentation.screens.main.listing.ListingScreen
+import com.fadybassem.gitexplore.presentation.screens.account_settings.profile.ProfileScreen
 import com.fadybassem.gitexplore.presentation.theme.AppTheme
 import com.fadybassem.gitexplore.presentation.theme.Black
 import com.fadybassem.gitexplore.utils.Logger
-import com.fadybassem.gitexplore.utils.REPOSITORY_ID
 import com.fadybassem.gitexplore.utils.showSystemUI
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainNavigation(startDestination: String) {
+fun AccountSettingsNavigation(startDestination: String) {
     val navController = rememberNavController()
     val activity = LocalContext.current as Activity
 
@@ -53,8 +46,7 @@ fun MainNavigation(startDestination: String) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = when (currentScreen) {
-                        MainRoutes.Listing.route -> stringResource(id = R.string.listing_title)
-                        MainRoutes.Details.route -> stringResource(id = R.string.repository_details_title)
+                        AccountSettingsRoutes.Profile.route -> stringResource(id = R.string.account_settings)
                         else -> ""
                     },
                     color = Black,
@@ -62,12 +54,13 @@ fun MainNavigation(startDestination: String) {
                     textAlign = TextAlign.Center,
                 )
             }, navigationIcon = {
-                if (currentScreen != MainRoutes.Listing.route) {
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                IconButton(onClick = {
+                    when (currentScreen) {
+                        AccountSettingsRoutes.Profile.route -> activity.finish()
+                        else -> navController.navigateUp()
                     }
-                } else {
-                    null
+                }) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
                 }
             })
         }) { innerPadding ->
@@ -76,28 +69,20 @@ fun MainNavigation(startDestination: String) {
                 navController = navController,
                 startDestination = startDestination
             ) {
-                // Listing Screen
-                composable(MainRoutes.Listing.route) {
-                    currentScreen = MainRoutes.Listing.route
-                    ListingScreen(navController = navController, navigateToProfile = {
-                        activity.startActivityNavigation(AccountSettingsActivity::class.java)
-                    })
+                // Profile Screen
+                composable(AccountSettingsRoutes.Profile.route) {
+                    currentScreen = AccountSettingsRoutes.Profile.route
+                    ProfileScreen(navController = navController)
                 }
 
-                // Listing Screen
-                composable(route = MainRoutes.Details.route + "/{$REPOSITORY_ID}",
-                    arguments = listOf(navArgument(name = REPOSITORY_ID, builder = { type = NavType.IntType }))) {
-                    currentScreen = MainRoutes.Details.route
-                    RepositoryScreen(navController = navController)
-                }
             }
         }
     }
 
     BackHandler {
         when (navController.currentDestination?.route) {
-            MainRoutes.Listing.route -> {
-                activity.finish() // Close the app
+            AccountSettingsRoutes.Profile.route -> {
+                activity.finish()
             }
 
             else -> {
@@ -109,14 +94,10 @@ fun MainNavigation(startDestination: String) {
     navController.addOnDestinationChangedListener { controller, destination, arguments ->
         Logger.debug(destination.route)
 
-        currentScreen = destination.route ?: MainRoutes.Listing.route
+        currentScreen = destination.route ?: AccountSettingsRoutes.Profile.route
 
         when (destination.route) {
-            MainRoutes.Listing.route -> {
-                activity.showSystemUI()
-            }
-
-            MainRoutes.Details.route -> {
+            AccountSettingsRoutes.Profile.route -> {
                 activity.showSystemUI()
             }
         }

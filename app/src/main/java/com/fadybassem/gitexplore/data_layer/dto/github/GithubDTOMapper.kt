@@ -36,6 +36,13 @@ class GithubDTOMapper @Inject constructor() {
     }
 
     fun mapSearchRepositories(response: RepositorySearchResponse): RepositorySearch {
-       return RepositorySearch(totalCount = response.totalCount, items = getRepositories(response.items))
+        return RepositorySearch(
+            totalCount = response.totalCount,
+            items = getRepositories(response.items)
+        )
+    }
+
+    fun mapRepositories(response: RepositoryResponse): Repository {
+        return getRepository(response)
     }
 }

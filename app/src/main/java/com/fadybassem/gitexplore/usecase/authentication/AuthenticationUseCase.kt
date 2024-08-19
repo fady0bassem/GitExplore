@@ -11,4 +11,5 @@ interface AuthenticationUseCase {
     suspend fun loginWithEmail(userRequestModel: UserRequestModel): Flow<Resource<User>>
     suspend fun registerWithEmail(userRequestModel: UserRequestModel): Flow<Resource<User>>
     suspend fun forgotPassword(userRequestModel: UserRequestModel): Flow<Resource<String>>
+    suspend fun logout(): Flow<Resource<Unit>>
 }

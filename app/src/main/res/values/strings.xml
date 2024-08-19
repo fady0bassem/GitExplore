@@ -181,10 +181,18 @@
     <string name="forgot_password_incorrect_email">Incorrect email</string>
     <string name="forgot_password_success">An email has been sent to you. Please check your email to reset your password.</string>
 
-    <!--listing-->
+    <!--main-->
     <string name="listing_title">GitExplore</string>
     <string name="welcome">Welcome</string>
     <string name="repository_name">Name</string>
     <string name="repository_full_name">Full Name</string>
     <string name="repository_description">Description</string>
+    <string name="repository_details_title">Repository Details</string>
+
+    <!--account settings-->
+    <string name="account_settings">Account Settings</string>
+    <string name="display_name">Display Name</string>
+    <string name="user_email">Email</string>
+    <string name="provider_id">Provider ID</string>
+    <string name="logout_successfully">Logout successfully</string>
 </resources>

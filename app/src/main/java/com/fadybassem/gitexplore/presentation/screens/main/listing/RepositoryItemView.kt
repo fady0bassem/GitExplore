@@ -43,25 +43,23 @@ import com.fadybassem.gitexplore.utils.Language
 @Composable
 private fun ListingPreview() {
     AppTheme(language = Language.ARABIC) {
-        RepositoryItemView(
-            Repository(
-                id = 1,
-                name = "grit",
-                fullName = "mojombo/grit",
-                owner = Owner(
-                    login = "mojombo",
-                    avatarUrl = "https://avatars.githubusercontent.com/u/1?v=4",
-                ),
-                description = "**Grit is no longer maintained. Check out libgit2/rugged.** Grit gives you object oriented read/write access to Git repositories via Ruby.",
-                stargazersCount = 2
-            )
-        )
+        RepositoryItemView(repository = Repository(
+            id = 1,
+            name = "grit",
+            fullName = "mojombo/grit",
+            owner = Owner(
+                login = "mojombo",
+                avatarUrl = "https://avatars.githubusercontent.com/u/1?v=4",
+            ),
+            description = "**Grit is no longer maintained. Check out libgit2/rugged.** Grit gives you object oriented read/write access to Git repositories via Ruby.",
+            stargazersCount = 2
+        ), onItemClick = {})
     }
 }
 
 
 @Composable
-internal fun RepositoryItemView(repository: Repository) {
+internal fun RepositoryItemView(repository: Repository, onItemClick: (Int) -> Unit) {
 
     val windowInfo = rememberWindowInfo()
 
@@ -72,7 +70,7 @@ internal fun RepositoryItemView(repository: Repository) {
                 start = windowInfo.windowDimensions.verticalPadding * 2,
                 end = windowInfo.windowDimensions.verticalPadding * 2
             )
-            .clickable {},
+            .clickable { onItemClick.invoke(repository.id) },
         elevation = CardDefaults.cardElevation(0.dp),
         shape = RoundedCornerShape(windowInfo.windowDimensions.verticalPadding * 2),
         colors = CardDefaults.cardColors(containerColor = White),

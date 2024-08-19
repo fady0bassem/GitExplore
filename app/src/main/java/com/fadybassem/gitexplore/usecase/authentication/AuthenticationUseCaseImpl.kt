@@ -1,6 +1,5 @@
 package com.fadybassem.gitexplore.usecase.authentication
 
-import com.fadybassem.gitexplore.R
 import com.fadybassem.gitexplore.data_layer.local.PreferenceHelper
 import com.fadybassem.gitexplore.data_layer.local.ResourceProvider
 import com.fadybassem.gitexplore.data_layer.network.NetworkManager
@@ -61,6 +60,18 @@ class AuthenticationUseCaseImpl(
                 .collect()
         }
 
+    override suspend fun logout(): Flow<Resource<Unit>> = flow {
+        if (checkForNetwork(networkManager, resourceProvider)) return@flow
+
+        repository.logout().onEach { resource ->
+            if (resource is Resource.Success) {
+                // Clear user data from local storage
+                clearData()
+            }
+            emit(resource)
+        }.collect()
+    }
+
     /**
      * set logged in value in local storage
      * save user in local storage
@@ -70,4 +81,14 @@ class AuthenticationUseCaseImpl(
         preferenceHelper.setLoggedIn(true)
         preferenceHelper.setUser(user)
     }
+
+    /**
+     * delete user in local storage
+     * delete local storage
+     * */
+    private fun clearData() {
+        preferenceHelper.clearSavedData()
+        preferenceHelper.setLoggedIn(false)
+    }
+
 }

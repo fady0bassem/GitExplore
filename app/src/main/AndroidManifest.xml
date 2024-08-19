@@ -42,6 +42,13 @@
             android:screenOrientation="nosensor"
             android:theme="@style/Theme.GitExplore"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".presentation.screens.account_settings.AccountSettingsActivity"
+            android:exported="true"
+            android:screenOrientation="nosensor"
+            android:theme="@style/Theme.GitExplore"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

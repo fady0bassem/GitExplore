@@ -129,6 +129,9 @@ dependencies {
     implementation(libs.jackson.databind)
     androidTestImplementation(libs.jackson.databind)
 
+    implementation (libs.androidx.paging.runtime.ktx)
+    implementation (libs.androidx.paging.compose)
+
     testImplementation(libs.junit)
 
     androidTestImplementation(libs.androidx.junit)

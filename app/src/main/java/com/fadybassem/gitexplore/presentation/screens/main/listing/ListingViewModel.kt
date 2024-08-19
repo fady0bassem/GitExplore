@@ -1,19 +1,21 @@
 package com.fadybassem.gitexplore.presentation.screens.main.listing
 
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.fadybassem.gitexplore.data_layer.local.ResourceProvider
 import com.fadybassem.gitexplore.data_layer.models.github.Repository
 import com.fadybassem.gitexplore.usecase.github.GithubUseCase
 import com.fadybassem.gitexplore.usecase.helper.HelperUseCase
 import com.fadybassem.gitexplore.utils.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,84 +33,60 @@ class ListingViewModel @Inject constructor(
 
     val searchQuery = mutableStateOf("")
 
-    val repositoriesList = mutableStateListOf<Repository>()
-
     val showApiError: MutableState<Pair<Boolean, String?>> = mutableStateOf(Pair(false, null))
 
-    var isSearch = false
-    var searchPage = 1
+    private val _publicRepoFlow = MutableStateFlow<PagingData<Repository>>(PagingData.empty())
+    val publicRepoFlow: StateFlow<PagingData<Repository>> = _publicRepoFlow
 
-    val scrollStatus = mutableStateOf(false)
-    val shouldScrollToTop = mutableStateOf(false)
+    private val _searchPageFlow = MutableStateFlow<PagingData<Repository>>(PagingData.empty())
+    val searchPageFlow: StateFlow<PagingData<Repository>> = _searchPageFlow
 
     init {
+        // Initialize the public repositories stream
         getPublicRepositories()
     }
 
-    private fun getPublicRepositories(since: Int = 0) {
+    private fun getPublicRepositories() {
         viewModelScope.launch {
-            githubUseCase.getPublicRepositories(since = since).onEach {
-                apiStatus.value = it.apiStatus
-
-                if (it.apiStatus == Status.SUCCESS) {
-                    it.data?.let { repositories ->
-                        if (since == 0) repositoriesList.clear()
-                        repositoriesList.addAll(repositories)
-                        showApiError.value = Pair(false, null)
-                        if (since == 0) shouldScrollToTop.value = true
+            githubUseCase.getPublicRepositoriesFlow().collectLatest { resource ->
+                apiStatus.value = resource.apiStatus
+                if (resource.apiStatus == Status.SUCCESS) {
+                    resource.data?.cachedIn(viewModelScope)?.collectLatest { pagingData ->
+                        _publicRepoFlow.value = pagingData
                     }
-                } else if (it.apiStatus == Status.FAILED || it.apiStatus == Status.ERROR) {
-                    showApiError.value = Pair(true, it.message)
+                } else if (resource.apiStatus == Status.ERROR || resource.apiStatus == Status.FAILED) {
+                    showApiError.value = Pair(true, resource.message)
+                    _publicRepoFlow.value = PagingData.empty()
                 }
-
-            }.launchIn(viewModelScope)
+            }
         }
     }
 
     private fun searchRepositories(query: String) {
         viewModelScope.launch {
-            githubUseCase.searchRepositories(query = query, page = searchPage).onEach {
-                apiStatus.value = it.apiStatus
-                if (it.apiStatus == Status.SUCCESS) {
-                    it.data?.let { repositorySearch ->
-                        if (searchPage == 1) repositoriesList.clear()
-                        repositoriesList.addAll(repositorySearch.items)
-                        showApiError.value = Pair(false, null)
-                        if (searchPage == 1) shouldScrollToTop.value = true
+            githubUseCase.searchRepositoriesFlow(query).collectLatest { resource ->
+                apiStatus.value = resource.apiStatus
+                if (resource.apiStatus == Status.SUCCESS) {
+                    resource.data?.cachedIn(viewModelScope)?.collectLatest { pagingData ->
+                        _searchPageFlow.value = pagingData
                     }
-                } else if (it.apiStatus == Status.FAILED || it.apiStatus == Status.ERROR) {
-                    showApiError.value = Pair(true, it.message)
+                } else if (resource.apiStatus == Status.ERROR || resource.apiStatus == Status.FAILED) {
+                    showApiError.value = Pair(true, resource.message)
+                    _searchPageFlow.value = PagingData.empty()
                 }
+            }
 
-            }.launchIn(viewModelScope)
-        }
-    }
-
-    fun paginatePublicRepositories() {
-        if (repositoriesList.isNotEmpty()) {
-            val lastID = repositoriesList.last().id
-            getPublicRepositories(since = lastID)
         }
     }
 
     fun clearSearchQuery() {
         searchQuery.value = ""
-        isSearch = false
-        searchPage = 1
-        getPublicRepositories(since = 0)
-        shouldScrollToTop.value = true
+        // Reset the search flow and load public repositories again
+        _searchPageFlow.value = PagingData.empty()
+        getPublicRepositories()
     }
 
     fun onSearchClick() {
-        isSearch = true
-        searchPage = 1
-        searchRepositories(query = searchQuery.value)
-        shouldScrollToTop.value = true
-    }
-
-    fun paginateSearchRepositories() {
-        isSearch = true
-        searchPage++
         searchRepositories(query = searchQuery.value)
     }
 }

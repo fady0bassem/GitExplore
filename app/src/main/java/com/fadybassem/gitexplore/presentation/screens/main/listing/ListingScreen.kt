@@ -10,6 +10,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.fadybassem.gitexplore.presentation.navigation.main.MainRoutes
 import com.fadybassem.gitexplore.presentation.theme.AppTheme
 import com.fadybassem.gitexplore.utils.ObserveLifecycleEvents
 import com.fadybassem.gitexplore.utils.showToastMessage
@@ -17,7 +19,7 @@ import com.fadybassem.gitexplore.utils.showToastMessage
 @Composable
 fun ListingScreen(
     navController: NavHostController,
-    finishActivity: () -> Unit,
+    navigateToProfile: () -> Unit,
     viewModel: ListingViewModel = hiltViewModel(),
 ) {
 
@@ -30,25 +32,33 @@ fun ListingScreen(
     val apiStatus = remember { viewModel.apiStatus }
 
     val showApiError = viewModel.showApiError
+    val user = viewModel.user
+    val searchQuery = viewModel.searchQuery
+
+    val publicRepoItems = viewModel.publicRepoFlow.collectAsLazyPagingItems()
+    val searchRepoItems = viewModel.searchPageFlow.collectAsLazyPagingItems()
+
+    val isSearch = searchQuery.value.isNotEmpty()
 
     AppTheme(language = language.value, apiStatus = apiStatus.value) {
         Box(modifier = Modifier.fillMaxSize()) {
-            ListingView(user = viewModel.user,
-                searchQuery = viewModel.searchQuery,
-                repositoriesList = viewModel.repositoriesList,
-                isSearch = viewModel.isSearch,
-                scrollStatus = viewModel.scrollStatus,
-                shouldScrollToTop = viewModel.shouldScrollToTop,
-                paginatePublicRepositories = { viewModel.paginatePublicRepositories() },
-                clearSearchQuery = { viewModel.clearSearchQuery() },
+            ListingView(user = user,
+                searchQuery = searchQuery,
+                repositoriesList = if (isSearch) searchRepoItems else publicRepoItems,
                 onSearchClick = { viewModel.onSearchClick() },
-                paginateSearchRepositories = {viewModel.paginateSearchRepositories()})
+                clearSearchQuery = { viewModel.clearSearchQuery() },
+                onItemClick = {
+                    navController.navigate(MainRoutes.Details.route + "/${it}")
+                },
+                navigateToProfile = {
+                    navigateToProfile.invoke()
+                })
+        }
 
-            // show api error toast
-            if (showApiError.value.first) {
-                context.showToastMessage(showApiError.value.second)
-                viewModel.showApiError.value = Pair(false, null)
-            }
+        // show api error toast
+        if (showApiError.value.first) {
+            context.showToastMessage(showApiError.value.second)
+            viewModel.showApiError.value = Pair(false, null)
         }
     }
 }
