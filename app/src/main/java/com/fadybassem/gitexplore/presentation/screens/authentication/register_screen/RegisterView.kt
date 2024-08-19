@@ -2,7 +2,6 @@ package com.fadybassem.gitexplore.presentation.screens.authentication.register_s
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,7 +34,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.fadybassem.gitexplore.R
 import com.fadybassem.gitexplore.presentation.components.button.SolidOutlinedButton
 import com.fadybassem.gitexplore.presentation.components.screen_size.rememberWindowInfo
@@ -154,79 +152,63 @@ internal fun RegisterView(
 
                 Spacer(modifier = Modifier.padding(windowInfo.windowDimensions.verticalPadding))
 
-                // first and last name
-                Row(
+                // first name input
+                BorderedLabeledOutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(
                             start = windowInfo.windowDimensions.verticalPadding * 2,
                             end = windowInfo.windowDimensions.verticalPadding * 2
-                        )
-                ) {
-                    // first name input
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                            .padding(
-                                start = 0.dp, end = windowInfo.windowDimensions.verticalPadding / 2
-                            )
-                    ) {
-                        BorderedLabeledOutlinedTextField(
-                            modifier = Modifier,
-                            textState = firstNameTextState,
-                            textStateError = firstNameTextStateError,
-                            label = stringResource(id = R.string.first_name),
-                            showLeadingIcon = true,
-                            leadingIcon = Icons.Filled.Person,
-                            leadingIconTint = Color.Black,
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Text, imeAction = ImeAction.Next
-                            ),
-                            keyboardActions = KeyboardActions(onNext = {
-                                onValidateFirstName.invoke()
-                                if (!firstNameTextStateError.value.first) {
-                                    localFocusManager.moveFocus(FocusDirection.Next)
-                                }
-                            })
-                        )
+                        ),
+                    textState = firstNameTextState,
+                    textStateError = firstNameTextStateError,
+                    label = stringResource(id = R.string.first_name),
+                    showLeadingIcon = true,
+                    leadingIcon = Icons.Filled.Person,
+                    leadingIconTint = Color.Black,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text, imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions(onNext = {
+                        onValidateFirstName.invoke()
+                        if (!firstNameTextStateError.value.first) {
+                            localFocusManager.moveFocus(FocusDirection.Next)
+                        }
+                    })
+                )
 
-                        // first name error
-                        ErrorValidationText(textStateError = firstNameTextStateError)
-                    }
+                // first name error
+                ErrorValidationText(textStateError = firstNameTextStateError)
 
-                    // last name input
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                            .padding(
-                                start = windowInfo.windowDimensions.verticalPadding / 2, end = 0.dp
-                            )
-                    ) {
-                        BorderedLabeledOutlinedTextField(
-                            modifier = Modifier,
-                            textState = lastNameTextState,
-                            textStateError = lastNameTextStateError,
-                            label = stringResource(id = R.string.last_name),
-                            showLeadingIcon = true,
-                            leadingIcon = Icons.Filled.Person,
-                            leadingIconTint = Color.Black,
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Text, imeAction = ImeAction.Next
-                            ),
-                            keyboardActions = KeyboardActions(onNext = {
-                                onValidateLastName.invoke()
-                                if (!lastNameTextStateError.value.first) {
-                                    localFocusManager.moveFocus(FocusDirection.Down)
-                                }
-                            })
-                        )
+                Spacer(modifier = Modifier.padding(windowInfo.windowDimensions.verticalPadding))
 
-                        // last name error
-                        ErrorValidationText(textStateError = lastNameTextStateError)
-                    }
-                }
+                // last name input
+                BorderedLabeledOutlinedTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = windowInfo.windowDimensions.verticalPadding * 2,
+                            end = windowInfo.windowDimensions.verticalPadding * 2
+                        ),
+                    textState = lastNameTextState,
+                    textStateError = lastNameTextStateError,
+                    label = stringResource(id = R.string.last_name),
+                    showLeadingIcon = true,
+                    leadingIcon = Icons.Filled.Person,
+                    leadingIconTint = Color.Black,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text, imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions(onNext = {
+                        onValidateLastName.invoke()
+                        if (!lastNameTextStateError.value.first) {
+                            localFocusManager.moveFocus(FocusDirection.Down)
+                        }
+                    })
+                )
+
+                // last name error
+                ErrorValidationText(textStateError = lastNameTextStateError)
 
                 Spacer(modifier = Modifier.padding(windowInfo.windowDimensions.verticalPadding))
 
